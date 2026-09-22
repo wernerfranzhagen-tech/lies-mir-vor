@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#075985">
+  <meta name="description" content="Gedruckte Texte fotografieren, erkennen und langsam vorlesen lassen.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon-192.png">
+  <title>Lies mir vor</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main id="app">
+  <section id="home" class="screen active">
+    <header><div><h1>Lies mir vor</h1><p class="sub">Fotografieren · Erkennen · Vorlesen</p></div><button class="iconBtn" data-go="settings" aria-label="Einstellungen">⚙<span>Einstellungen</span></button></header>
+    <div class="homeButtons">
+      <button class="big primary" id="photoBtn">📷 <span>Text fotografieren</span></button>
+      <button class="big accent" id="homeReadBtn" disabled>▶ <span>Text vorlesen</span></button>
+      <button class="big neutral" data-go="saved">📁 <span>Meine Texte</span></button>
+    </div>
+    <p class="privacy">Texte werden auf diesem Gerät gespeichert. Fotos werden nach der Erkennung nicht dauerhaft gespeichert.</p>
+  </section>
+
+  <section id="scan" class="screen">
+    <header><button class="back" data-go="home">← Zurück</button><h2>Text aufnehmen</h2></header>
+    <div class="card">
+      <p class="lead">Halten Sie die Kamera möglichst gerade über den Text und sorgen Sie für gutes Licht.</p>
+      <button class="big primary" id="cameraBtn">📷 <span>Kamera öffnen</span></button>
+      <button class="big neutral" id="galleryBtn">🖼️ <span>Foto auswählen</span></button>
+      <input id="cameraInput" type="file" accept="image/*" capture="environment" hidden>
+      <input id="galleryInput" type="file" accept="image/*" hidden>
+    </div>
+    <div id="ocrBox" class="card hidden" aria-live="polite">
+      <h3>Text wird erkannt …</h3>
+      <progress id="ocrProgress" max="100" value="0"></progress>
+      <p id="ocrStatus">Bitte warten.</p>
+    </div>
+    <div id="scanError" class="notice error hidden"></div>
+  </section>
+
+  <section id="reader" class="screen">
+    <header><button class="back" data-go="home">← Start</button><h2>Erkannter Text</h2></header>
+    <div id="readerNotice" class="notice hidden"></div>
+    <textarea id="textArea" aria-label="Erkannter Text" spellcheck="true"></textarea>
+    <div class="grid2">
+      <button class="big accent" id="readBtn">▶ <span>Vorlesen</span></button>
+      <button class="big neutral" id="pauseBtn">⏸ <span>Pause</span></button>
+      <button class="big neutral" id="resumeBtn">▶ <span>Weiter</span></button>
+      <button class="big danger" id="stopBtn">■ <span>Stopp</span></button>
+      <button class="big neutral" id="prevBtn">⏮ <span>Satz zurück</span></button>
+      <button class="big neutral" id="nextBtn">⏭ <span>Satz weiter</span></button>
+    </div>
+    <button class="big success" id="saveBtn">💾 <span>Text speichern</span></button>
+    <button class="big primary" id="newPhotoBtn">📷 <span>Neues Foto</span></button>
+  </section>
+
+  <section id="saved" class="screen">
+    <header><button class="back" data-go="home">← Zurück</button><h2>Meine Texte</h2></header>
+    <div id="savedList"></div>
+  </section>
+
+  <section id="settings" class="screen">
+    <header><button class="back" data-go="home">← Zurück</button><h2>Einstellungen</h2></header>
+    <fieldset class="card"><legend>Schriftgröße</legend>
+      <label><input type="radio" name="fontSize" value="large"> Groß</label>
+      <label><input type="radio" name="fontSize" value="xlarge" checked> Sehr groß</label>
+      <label><input type="radio" name="fontSize" value="xxlarge"> Extra groß</label>
+    </fieldset>
+    <fieldset class="card"><legend>Vorlesegeschwindigkeit</legend>
+      <label><input type="radio" name="speed" value="0.75" checked> Langsam</label>
+      <label><input type="radio" name="speed" value="0.9"> Normal</label>
+      <label><input type="radio" name="speed" value="1.05"> Etwas schneller</label>
+    </fieldset>
+    <p class="privacy">Die Texterkennung läuft im Browser. Beim ersten Einsatz werden dafür Programm- und deutsche Sprachdaten aus dem Internet geladen. Gespeicherte Texte bleiben lokal im Browser.</p>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
